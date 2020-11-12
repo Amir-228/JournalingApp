@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "9109692810",
+    "firebase_url": "https://android-project-51a88.firebaseio.com",
+    "project_id": "android-project-51a88",
+    "storage_bucket": "android-project-51a88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9109692810:android:c3ac7feac7e83dc6522873",
+        "android_client_info": {
+          "package_name": "com.example.journalingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9109692810-bmu16e0feas9h5bh2avq19vfkb091rg8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.journalingapp",
+            "certificate_hash": "c05a8ac35e22d48739a3f0b6f7f78fe08f65fead"
+          }
+        },
+        {
+          "client_id": "9109692810-c5aop9qcdgg73ok6l88jk9fmfsv6edac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGUndVdHpXuP3aFX9jCg9QR2cOjwXpng8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9109692810-c5aop9qcdgg73ok6l88jk9fmfsv6edac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
