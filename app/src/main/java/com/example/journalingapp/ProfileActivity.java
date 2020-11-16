@@ -110,13 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                      */
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                    finish();
-                }
             });
         }
         imageButton.setOnClickListener(new View.OnClickListener() {
