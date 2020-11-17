@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //needs to be changed to the setting activity.
     public void setting(){
-        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        startActivity(new Intent(getApplicationContext(), appSettingsActivity.class));
         finish();
     }
 
