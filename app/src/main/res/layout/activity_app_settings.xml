@@ -78,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/color_picker_button"
+        android:onClick="colorTwoTwo"
         android:text="Color 2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -90,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/color_picker_button"
+        android:onClick="colorOneTwo"
         android:text="Color 1"
         app:layout_constraintEnd_toStartOf="@+id/backgroundColorPickerOneOne"
         app:layout_constraintHorizontal_bias="0.5"
@@ -102,6 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/color_picker_button"
+        android:onClick="colorOneOne"
         android:text="Color"
         app:layout_constraintEnd_toStartOf="@+id/backgroundColorPickerTwoTwo"
         app:layout_constraintHorizontal_bias="0.5"
@@ -111,8 +114,10 @@
     <ScrollView
         android:id="@+id/textFontScrollView"
         android:layout_width="292dp"
-        android:layout_height="247dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveChangesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFontTextView">
@@ -125,57 +130,77 @@
             <RadioGroup
                 android:id="@+id/textFontRadioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent">
 
                 <RadioButton
-                    android:id="@+id/radioButton8"
+                    android:id="@+id/fontfamilyRadioSS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:checked="true"
+                    android:text="Sans-serif" />
 
                 <RadioButton
-                    android:id="@+id/radioButton9"
+                    android:id="@+id/fontfamilyRadioAq"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="@font/aguafina_script"
+                    android:text="Aquafina" />
 
                 <RadioButton
-                    android:id="@+id/radioButton10"
+                    android:id="@+id/fontfamilyRadioSSB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="sans-serif-black"
+                    android:text="Sans-serif Black" />
 
                 <RadioButton
-                    android:id="@+id/radioButton11"
+                    android:id="@+id/fontfamilyRadioS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="serif"
+                    android:text="Serif" />
 
                 <RadioButton
-                    android:id="@+id/radioButton12"
+                    android:id="@+id/fontfamilyRadioMn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="monospace"
+                    android:text="Monospace" />
 
                 <RadioButton
-                    android:id="@+id/radioButton7"
+                    android:id="@+id/fontfamilyRadioSMn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="serif-monospace"
+                    android:text="Serif Monospace" />
 
                 <RadioButton
-                    android:id="@+id/radioButton5"
+                    android:id="@+id/fontfamilyRadioCs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="casual"
+                    android:text="Casual" />
 
                 <RadioButton
-                    android:id="@+id/radioButton6"
+                    android:id="@+id/fontfamilyRadioCr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RadioButton" />
+                    android:fontFamily="cursive"
+                    android:text="Cursive" />
             </RadioGroup>
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/saveChangesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Save Changes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
