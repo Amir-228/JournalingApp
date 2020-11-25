@@ -66,7 +66,13 @@ public class MainActivity extends AppCompatActivity {
         add = findViewById(R.id.add);
         recyclerView = findViewById(R.id.recyclerView);
 
-
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), addEntry.class));
+                finish();
+            }
+        });
 
     }
 }

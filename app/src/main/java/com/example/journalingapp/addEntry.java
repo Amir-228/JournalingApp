@@ -8,8 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toolbar;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 public class addEntry extends AppCompatActivity {
+
+    EditText title, input;
 
 
     @Override
@@ -38,10 +44,11 @@ public class addEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_entry);
 
+        title = findViewById(R.id.titleInput);
+        input = findViewById(R.id.entryInputText);
 
-
-
-
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
 
