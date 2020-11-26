@@ -30,8 +30,14 @@ public class addEntry extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if(item.getItemId() == R.id.Home){
+        if(item.getItemId() == R.id.done){
             goHome();
+            //save to database
+            return true;
+        }
+        else if(item.getItemId() == R.id.cancel){
+            goHome();
+            //don't save to database
             return true;
         }
         else {
@@ -46,9 +52,6 @@ public class addEntry extends AppCompatActivity {
 
         title = findViewById(R.id.titleInput);
         input = findViewById(R.id.entryInputText);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
 

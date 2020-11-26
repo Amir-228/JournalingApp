@@ -4,38 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#487487"
+    android:background="#C8C8C8"
     tools:context=".addEntry">
 
-    <TextView
-        android:id="@+id/titleLabel"
+    <EditText
+        android:id="@+id/titleInput"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="372dp"
-        android:layout_marginBottom="10dp"
-        android:text="Title"
-        app:layout_constraintBottom_toTopOf="@+id/titleInput"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="#C8C8C8"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/entryInputText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/titleInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/titleLabel"
-        app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
-
-    <EditText
         android:id="@+id/entryInputText"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="#C8C8C8"
         android:ems="10"
         android:gravity="start"
