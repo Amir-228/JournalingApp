@@ -2,10 +2,12 @@ package com.example.journalingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,10 +16,15 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     Button add;
     RecyclerView recyclerView;
+    recyclerviewadapter rva;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         add = findViewById(R.id.add);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.entryList);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,5 +81,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //create temporary Entry item, grab content from database, put content in entry item, but entry item in ArrayList
+        //use ArrayList with RecyclerViewAdapter to load RecyclerView with Entry items
+
+        final ArrayList<Entry> entries = getData();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rva = new recyclerviewadapter(entries, this);
+        recyclerView.setAdapter(rva);
+
     }
+
+    public ArrayList getData(){
+
+        ArrayList<Entry> entryList = new ArrayList();
+
+   /*     if() { //if there is an entry in the database
+            do {
+
+                String title = ""; //grab from firebase
+                Date date = null;
+                String content = "";
+                String name = ""; //get logged in user's username from firebase;
+
+                Entry tempEntry = new Entry(title, content, date, name);
+                entryList.add(tempEntry);
+
+            } while (); //while there is still another entry in the table
+        }
+        else{
+            Log.e("Empty", "No entries found.");
+        } */
+
+        return entryList;
+    }
+
+
 }
