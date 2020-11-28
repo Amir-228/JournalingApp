@@ -21,7 +21,7 @@ public class addEntry extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.settingsmenu, menu);
+        menuInflater.inflate(R.menu.addentrymenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
