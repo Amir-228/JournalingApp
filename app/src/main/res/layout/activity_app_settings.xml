@@ -5,7 +5,7 @@
     android:id="@+id/appSettingsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bglogin"
+    android:background="#8EBBCF"
     tools:context=".appSettingsActivity">
 
     <TextView

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toolbar;
 
-import com.google.android.material.textfield.TextInputLayout;
 
 public class addEntry extends AppCompatActivity {
 

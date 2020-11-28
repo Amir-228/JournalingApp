@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:background="#487487">
+    android:background="#8EBBCF"
+    tools:context=".ProfileActivity">
 
     <ListView
         android:id="@+id/listView"
