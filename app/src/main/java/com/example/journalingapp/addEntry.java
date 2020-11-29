@@ -9,12 +9,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class addEntry extends AppCompatActivity {
 
     EditText title, input;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userId;
 
 
     @Override
@@ -29,8 +42,8 @@ public class addEntry extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if(item.getItemId() == R.id.done){
-            goHome();
+        if(item.getItemId() == R.id.save){
+            saveToDatabase();
             //save to database
             return true;
         }
@@ -39,9 +52,10 @@ public class addEntry extends AppCompatActivity {
             //don't save to database
             return true;
         }
-        else {
-            return false;
+        else if(item.getItemId() == R.id.home) {
+            goHome();
         }
+        return false;
     }
 
     @Override
@@ -52,11 +66,42 @@ public class addEntry extends AppCompatActivity {
         title = findViewById(R.id.titleInput);
         input = findViewById(R.id.entryInputText);
 
-    }
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
+    }
     public void goHome(){
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
+    }
+    public void saveToDatabase(){
+
+        String journalTitle = title.getText().toString().trim();
+        String journalContent = input.getText().toString().trim();
+        userId = fAuth.getCurrentUser().getUid();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String,Object> data = new HashMap<>();
+        data.put("UserID",userId);
+        data.put("Title",journalTitle);
+        data.put("Content",journalContent);
+
+        db.collection("journals")
+                .add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(addEntry.this, "Journal added to the Database.",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(addEntry.this, "Failed to upload to the Database.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
 }

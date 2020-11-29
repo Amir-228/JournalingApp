@@ -93,6 +93,8 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("lName",lastNameValue);
                             user.put("userN",userNameValue);
 
+                            documentReference.set(user);
+
                             startActivity(new Intent (getApplicationContext(),LoginActivity.class));
                             finish();
                         }
