@@ -44,12 +44,10 @@ public class addEntry extends AppCompatActivity {
 
         if(item.getItemId() == R.id.save){
             saveToDatabase();
-            //save to database
             return true;
         }
         else if(item.getItemId() == R.id.cancel){
             goHome();
-            //don't save to database
             return true;
         }
         else if(item.getItemId() == R.id.home) {
@@ -101,6 +99,8 @@ public class addEntry extends AppCompatActivity {
             }
         });
 
+        startActivity(new Intent(getApplicationContext(), addEntry.class));
+        finish();
 
     }
 

@@ -10,10 +10,9 @@ public class Entry implements Serializable {
     private Date date;
     private String writer;
 
-    public Entry(String title, String content, Date date, String writer) {
+    public Entry(String title, String content, String writer) {
         this.title = title;
         this.content = content;
-        this.date = date;
         this.writer = writer;
     }
 

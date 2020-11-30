@@ -13,8 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,9 +98,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     public ArrayList getData(){
 
-        ArrayList<Entry> entryList = new ArrayList();
+        final ArrayList<Entry> entryList = new ArrayList();
+
+        DocumentReference df = FirebaseFirestore.getInstance().collection("journals").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String title = documentSnapshot.getString("Title");
+                String content = documentSnapshot.getString("Content");
+                String name = documentSnapshot.getString("UserID");
+
+                Entry entryObj = new Entry(title,content,name);
+
+                entryList.add(entryObj);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "No Data Found!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
    /*     if() { //if there is an entry in the database
             do {
@@ -115,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         return entryList;
     }
+
 
 
 }
