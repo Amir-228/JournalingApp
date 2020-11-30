@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -35,6 +37,13 @@ public class appSettingsActivity extends AppCompatActivity {
 
     int textFont = 0;
     int backgroundOption = 0;
+
+    public static final String SHARED_PREFS = "appSettings";
+    public static final String BACKGROUND_CHOICE = "bG";
+    public static final String BACKGROUND_ONEONE = "bG11";
+    public static final String BACKGROUND_ONETWO = "bG12";
+    public static final String BACKGROUND_TWOTWO = "bG22";
+    public static final String TEXTFONT = "tf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +67,9 @@ public class appSettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
-                int backgroundOption = radioGroup.getCheckedRadioButtonId();
+                int backgroundOptionn = radioGroup.getCheckedRadioButtonId();
 
-                switch (backgroundOption)   {
+                switch (backgroundOptionn)   {
                     case R.id.backgroundDefaultRadio:
                         backgroundOption = 0;
                         colorPicker11.setVisibility(View.INVISIBLE);
@@ -137,6 +146,8 @@ public class appSettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        loadSharedPreferences();
 
     }
 
@@ -261,5 +272,95 @@ public class appSettingsActivity extends AppCompatActivity {
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
+    }
+
+    public void saveExit(View view) {
+
+        SharedPreferences sp = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.putInt(BACKGROUND_CHOICE, backgroundOption);
+        editor.putInt(TEXTFONT, textFont);
+        editor.putInt(BACKGROUND_ONEONE, colorUni);
+        editor.putInt(BACKGROUND_ONETWO, color1);
+        editor.putInt(BACKGROUND_TWOTWO, color2);
+
+        editor.apply();
+
+        Toast.makeText(this, "Changes have been saved", Toast.LENGTH_SHORT).show();
+
+        goHome();
+    }
+
+    public void loadSharedPreferences()  {
+
+        SharedPreferences sp = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
+        backgroundOption = sp.getInt(BACKGROUND_CHOICE, 0);
+        textFont = sp.getInt(TEXTFONT, 0);
+        colorUni = sp.getInt(BACKGROUND_ONEONE, 0);
+        color1 = sp.getInt(BACKGROUND_ONETWO, 0);
+        color2 = sp.getInt(BACKGROUND_TWOTWO, 0);
+
+        Log.e("iooo", "bg: " + backgroundOption);
+
+        switch(backgroundOption)    {
+
+            case 0:
+                ((RadioButton) findViewById(R.id.backgroundDefaultRadio)).setChecked(true);
+                defaultChange();
+                break;
+
+            case 1:
+                ((RadioButton) findViewById(R.id.backgroundFillRadio)).setChecked(true);
+                oneColorChange();
+                break;
+
+            case 2:
+                ((RadioButton) findViewById(R.id.backgroundMixedRadio)).setChecked(true);
+                twoColorChange();
+                break;
+
+            case 3:
+                ((RadioButton) findViewById(R.id.backgroundAnimatedRadio)).setChecked(true);
+                animatedChange();
+                break;
+        }
+
+        switch(textFont)   {
+
+            case 0:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioSS)).setChecked(true);
+                break;
+
+            case 1:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioAq)).setChecked(true);
+                break;
+
+            case 2:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioSSB)).setChecked(true);
+                break;
+
+            case 3:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioS)).setChecked(true);
+                break;
+
+            case 4:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioMn)).setChecked(true);
+                break;
+
+            case 5:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioSMn)).setChecked(true);
+                break;
+
+            case 6:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioCs)).setChecked(true);
+                break;
+
+            case 7:
+                ((RadioButton) findViewById(R.id.fontfamilyRadioCr)).setChecked(true);
+                break;
+        }
+
     }
 }

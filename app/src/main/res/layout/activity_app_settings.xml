@@ -5,7 +5,7 @@
     android:id="@+id/appSettingsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8EBBCF"
+    android:background="@drawable/bglogin"
     tools:context=".appSettingsActivity">
 
     <TextView
@@ -198,6 +198,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:backgroundTint="#8BC34A"
+        android:onClick="saveExit"
         android:text="Save Changes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
