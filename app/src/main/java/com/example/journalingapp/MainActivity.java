@@ -1,4 +1,4 @@
-package com.example.journalingapp;
+    package com.example.journalingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,12 +15,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -104,47 +108,34 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<Entry> entryList = new ArrayList();
 
         DocumentReference df = FirebaseFirestore.getInstance().collection("journals").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {         //this part doesn't work ^^^ | that doesn't retrieve the document
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String title = documentSnapshot.getString("Title");
-                String content = documentSnapshot.getString("Content");
-                String name = documentSnapshot.getString("UserID");
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                Entry entryObj = new Entry(title,content,name);
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()){
 
-                entryList.add(entryObj);
+                        String title = document.getString("Title");
+                        String content = document.getString("Content");
+                        String name = document.getString("UserID");
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "No Data Found!", Toast.LENGTH_LONG).show();
+
+                        Entry entryObj = new Entry(title, content, name);
+
+                        entryList.add(entryObj);
+                    }
+                    else{
+                        Log.wtf("wtf", "" + document);
+                        Log.e("None", "No such document exists.");
+                    }
+                }
+                else{
+                    Log.e("Failed", "" + task.getException());
+                }
             }
         });
 
-
-
-   /*     if() { //if there is an entry in the database
-            do {
-
-                String title = ""; //grab from firebase
-                Date date = null;
-                String content = "";
-                String name = ""; //get logged in user's username from firebase;
-
-                Entry tempEntry = new Entry(title, content, date, name);
-                entryList.add(tempEntry);
-
-            } while (); //while there is still another entry in the table
-        }
-        else{
-            Log.e("Empty", "No entries found.");
-        } */
-
         return entryList;
     }
-
-
-
 }
