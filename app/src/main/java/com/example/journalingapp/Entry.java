@@ -1,35 +1,44 @@
 package com.example.journalingapp;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@IgnoreExtraProperties
 public class Entry implements Serializable {
 
-    private String title;
-    private String content;
-    private Date date;
-    private String writer;
+    private String Title;
+    private String Content;
+    private @ServerTimestamp Date date;
+    private String UserID;
 
-    public Entry(String title, String content, String writer) {
-        this.title = title;
-        this.content = content;
-        this.writer = writer;
+
+    public Entry() { //no argument constructor because the compiler was angry at me
+    }
+
+    public Entry(String title, String content, Date date, String userID) {
+        this.Title = title;
+        this.Content = content;
+        this.date = date;
+        this.UserID = userID;
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
     public String getContent() {
-        return content;
+        return Content;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.Content = content;
     }
 
     public Date getDate() {
@@ -40,21 +49,21 @@ public class Entry implements Serializable {
         this.date = date;
     }
 
-    public String getWriter() {
-        return writer;
+    public String getUserID() {
+        return UserID;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setUserID(String writer) {
+        this.UserID = writer;
     }
 
     @Override
     public String toString() {
         return "Entry{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
+                "title='" + Title + '\'' +
+                ", content='" + Content + '\'' +
                 ", date=" + date +
-                ", writer='" + writer + '\'' +
+                ", writer='" + UserID + '\'' +
                 '}';
     }
 }

@@ -20,9 +20,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
@@ -94,44 +98,47 @@ public class MainActivity extends AppCompatActivity {
         //create temporary Entry item, grab content from database, put content in entry item, but entry item in ArrayList
         //use ArrayList with RecyclerViewAdapter to load RecyclerView with Entry items
 
-        final ArrayList<Entry> entries = getData();
+        ArrayList<Entry> entries = getData();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Log.d("Array", entries.isEmpty() + "");
+
         rva = new recyclerviewadapter(entries, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(rva);
 
     }
 
 
-    public ArrayList getData(){
+    public ArrayList<Entry> getData(){
 
         final ArrayList<Entry> entryList = new ArrayList();
 
-        DocumentReference df = FirebaseFirestore.getInstance().collection("journals").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {         //this part doesn't work ^^^ | that doesn't retrieve the document
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference entryReference = db.collection("journals");
+        Query entryQuery = entryReference.whereEqualTo("UserID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        entryQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()){
 
-                        String title = document.getString("Title");
-                        String content = document.getString("Content");
-                        String name = document.getString("UserID");
+                    Log.d("Success", "Task was successful");
 
 
-                        Entry entryObj = new Entry(title, content, name);
+                    for(QueryDocumentSnapshot doc: task.getResult()){
 
-                        entryList.add(entryObj);
+                        Entry entry = doc.toObject(Entry.class);
+                        entryList.add(entry);
                     }
-                    else{
-                        Log.wtf("wtf", "" + document);
-                        Log.e("None", "No such document exists.");
-                    }
+
+                    Log.d("EntryList", entryList.toString());
+
+                    //tell rva that dataset is changed (maybe)
+
                 }
                 else{
-                    Log.e("Failed", "" + task.getException());
+                    Log.e("Failed", "Task has failed");
+                    Toast.makeText(getApplicationContext(), "Task failed", Toast.LENGTH_LONG).show();
                 }
             }
         });

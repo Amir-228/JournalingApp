@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,6 +18,7 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
 
     private ArrayList<Entry> data;
     private LayoutInflater inf;
+    private int selectedEntryIndex;
     Context ctx;
     public OnItemClickListener onClickerListener;
 
@@ -40,14 +42,28 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
 
     @Override
     public void onBindViewHolder(@NonNull recyclerviewadapter.ViewHolder holder, int position) {
+
         Entry entry = data.get(position);
         holder.title.setText(entry.getTitle());
-        holder.date.setText("" + entry.getDate());
+        SimpleDateFormat spf = new SimpleDateFormat("MMM dd, yyyy");
+        String date = spf.format(data.get(position).getDate());
+        holder.date.setText(date);
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void removeEntry(Entry entry){
+        data.remove(entry);
+        notifyDataSetChanged();
+    }
+
+    public void updateEntry(Entry entry){
+        data.get(selectedEntryIndex).setTitle(entry.getTitle());
+        data.get(selectedEntryIndex).setContent(entry.getContent());
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
