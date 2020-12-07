@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Button add;
     RecyclerView recyclerView;
     recyclerviewadapter rva;
+    ArrayList<Entry> entries;
 
 
     @Override
@@ -98,13 +99,15 @@ public class MainActivity extends AppCompatActivity {
         //create temporary Entry item, grab content from database, put content in entry item, but entry item in ArrayList
         //use ArrayList with RecyclerViewAdapter to load RecyclerView with Entry items
 
-        ArrayList<Entry> entries = getData();
+        //ArrayList<Entry> entries = getData();
 
-        Log.d("Array", entries.isEmpty() + "");
+        getData();
 
-        rva = new recyclerviewadapter(entries, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(rva);
+
+
+        //rva = new recyclerviewadapter(entries, this);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setAdapter(rva);
 
     }
 
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<Entry> entryList = new ArrayList();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference entryReference = db.collection("journals");
+        final CollectionReference entryReference = db.collection("journals");
         Query entryQuery = entryReference.whereEqualTo("UserID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         entryQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -132,17 +135,30 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Log.d("EntryList", entryList.toString());
-
                     //tell rva that dataset is changed (maybe)
+                    getTheResult(entryList);
+
 
                 }
                 else{
                     Log.e("Failed", "Task has failed");
                     Toast.makeText(getApplicationContext(), "Task failed", Toast.LENGTH_LONG).show();
                 }
+
             }
         });
 
+
         return entryList;
     }
+    public void getTheResult(ArrayList<Entry> pass){
+        entries = new ArrayList<>(pass);
+        System.out.println(("Testing the outcome ===============================" + entries));
+
+        rva = new recyclerviewadapter(entries, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(rva);
+
+    }
+
 }
