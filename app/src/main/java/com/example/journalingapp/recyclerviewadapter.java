@@ -48,6 +48,13 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
         SimpleDateFormat spf = new SimpleDateFormat("MMM dd, yyyy");
         String date = spf.format(data.get(position).getDate());
         holder.date.setText(date);
+
+        if(entry.getOwnerName().equals("")){
+            holder.owner.setText("No name set.");
+        }
+        else{
+            holder.owner.setText(entry.getOwnerName());
+        }
     }
 
     @Override
@@ -63,18 +70,21 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
     public void updateEntry(Entry entry){
         data.get(selectedEntryIndex).setTitle(entry.getTitle());
         data.get(selectedEntryIndex).setContent(entry.getContent());
+        data.get(selectedEntryIndex).setDate(entry.getDate());
+        data.get(selectedEntryIndex).setOwnerName(entry.getOwnerName());
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title, date;
+        TextView title, date, owner;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             title = itemView.findViewById(R.id.titleHolder);
             date = itemView.findViewById(R.id.dateHolder);
+            owner = itemView.findViewById(R.id.ownerHolder);
 
             itemView.setOnClickListener(new View.OnClickListener() { //allows the app to recognize which item is being clicked.
                 @Override

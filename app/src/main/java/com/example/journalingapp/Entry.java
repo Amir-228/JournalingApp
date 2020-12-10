@@ -13,6 +13,7 @@ public class Entry implements Serializable {
     private String Content;
     private @ServerTimestamp Date date;
     private String UserID;
+    private String ownerName;
 
 
     public Entry() { //no argument constructor because the compiler was angry at me
@@ -23,6 +24,14 @@ public class Entry implements Serializable {
         this.Content = content;
         this.date = date;
         this.UserID = userID;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public String getTitle() {
