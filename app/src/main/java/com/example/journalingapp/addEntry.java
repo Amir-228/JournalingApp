@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,6 +77,7 @@ public class addEntry extends AppCompatActivity {
 
         String journalTitle = title.getText().toString().trim();
         String journalContent = input.getText().toString().trim();
+        Date date = new Date();
         userId = fAuth.getCurrentUser().getUid();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -84,6 +86,7 @@ public class addEntry extends AppCompatActivity {
         data.put("UserID",userId);
         data.put("Title",journalTitle);
         data.put("Content",journalContent);
+        //data.put("Date", date); unsure of whether this line will work
 
         db.collection("journals")
                 .add(data)
