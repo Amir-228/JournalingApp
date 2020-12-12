@@ -84,6 +84,7 @@ public class addEntry extends AppCompatActivity {
 
         String journalTitle = title.getText().toString().trim();
         String journalContent = input.getText().toString().trim();
+        String ownerName = "Owner name";
         Date date = new Date();
         userId = fAuth.getCurrentUser().getUid();
 
@@ -93,7 +94,8 @@ public class addEntry extends AppCompatActivity {
         data.put("UserID",userId);
         data.put("Title",journalTitle);
         data.put("Content",journalContent);
-        //data.put("Date", date); unsure of whether this line will work
+        data.put("Owner", ownerName);
+        data.put("Date", date);
 
         db.collection("journals")
                 .add(data)

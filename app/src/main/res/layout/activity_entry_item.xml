@@ -41,22 +41,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/editBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleHolder"
-        app:srcCompat="@drawable/ic_baseline_edit_24" />
-
-    <ImageButton
         android:id="@+id/deleteBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editBtn"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateHolder"
         app:srcCompat="@drawable/ic_baseline_delete_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

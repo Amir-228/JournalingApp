@@ -1,4 +1,4 @@
-    package com.example.journalingapp;
+package com.example.journalingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.mainmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -69,17 +70,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     public void showProfile() {
         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         finish();
     }
+
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }
+
     //needs to be changed to the setting activity.
-    public void setting(){
+    public void setting() {
         startActivity(new Intent(getApplicationContext(), appSettingsActivity.class));
         finish();
     }
@@ -108,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         getData();
 
 
-
         //rva = new recyclerviewadapter(entries, this);
         //recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //recyclerView.setAdapter(rva);
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public ArrayList<Entry> getData(){
+    public ArrayList<Entry> getData() {
 
         final ArrayList<Entry> entryList = new ArrayList();
 
@@ -128,12 +131,10 @@ public class MainActivity extends AppCompatActivity {
         entryQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     Log.d("Success", "Task was successful");
-
-
-                    for(QueryDocumentSnapshot doc: task.getResult()){
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
 
                         Entry entry = doc.toObject(Entry.class);
                         entryList.add(entry);
@@ -142,27 +143,39 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("EntryList", entryList.toString());
                     //tell rva that dataset is changed (maybe)
                     getTheResult(entryList);
-
-
-                }
-                else{
+                } else {
                     Log.e("Failed", "Task has failed");
                     Toast.makeText(getApplicationContext(), "Task failed", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 
-
         return entryList;
     }
-    public void getTheResult(ArrayList<Entry> pass){
+
+    public void getTheResult(ArrayList<Entry> pass) {
         entries = new ArrayList<>(pass);
         System.out.println(("Testing the outcome ===============================" + entries));
 
         rva = new recyclerviewadapter(entries, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(rva);
+
+        System.out.println("Setting adapter");
+
+        rva.setOnItemClickListener(new recyclerviewadapter.OnItemClickListener() {
+            @Override
+            public void onEditClick(int position) {
+                //open edit activity
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                entries.remove(position);
+                rva.notifyItemRemoved(position);
+                //remove item from cloud firestore
+            }
+        });
 
     }
 
@@ -172,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
         ConstraintLayout layoutm = findViewById(R.id.mainActivityLayout);
 
-        switch(sp.getInt(appSettingsActivity.BACKGROUND_CHOICE, 0))    {
+        switch (sp.getInt(appSettingsActivity.BACKGROUND_CHOICE, 0)) {
 
             case 0:
                 layoutm.setBackground(getDrawable(R.drawable.bglogin));
@@ -187,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                 gd.setOrientation(GradientDrawable.Orientation.BL_TR);
 
-                gd.setColors(new int[]  {sp.getInt(appSettingsActivity.BACKGROUND_ONETWO, 0), sp.getInt(appSettingsActivity.BACKGROUND_TWOTWO, 0)});
+                gd.setColors(new int[]{sp.getInt(appSettingsActivity.BACKGROUND_ONETWO, 0), sp.getInt(appSettingsActivity.BACKGROUND_TWOTWO, 0)});
 
                 layoutm.setBackground(gd);
                 break;

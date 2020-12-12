@@ -5,6 +5,8 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +32,8 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
     }
 
     public interface OnItemClickListener{ //my own interface to facilitate clicking
-        void onItemClick(int position);
+        void onEditClick(int position);
+        void onDeleteClick(int position);
     }
 
     @NonNull
@@ -49,11 +52,11 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
         String date = spf.format(data.get(position).getDate());
         holder.date.setText(date);
 
-        if(entry.getOwnerName().equals("")){
+        if(entry.getOwner().equals("")){
             holder.owner.setText("No name set.");
         }
         else{
-            holder.owner.setText(entry.getOwnerName());
+            holder.owner.setText(entry.getOwner());
         }
     }
 
@@ -71,13 +74,18 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
         data.get(selectedEntryIndex).setTitle(entry.getTitle());
         data.get(selectedEntryIndex).setContent(entry.getContent());
         data.get(selectedEntryIndex).setDate(entry.getDate());
-        data.get(selectedEntryIndex).setOwnerName(entry.getOwnerName());
+        data.get(selectedEntryIndex).setOwner(entry.getOwner());
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener hear){
+        onClickerListener = hear;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView title, date, owner;
+        ImageButton delete;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -85,6 +93,8 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
             title = itemView.findViewById(R.id.titleHolder);
             date = itemView.findViewById(R.id.dateHolder);
             owner = itemView.findViewById(R.id.ownerHolder);
+            delete = itemView.findViewById(R.id.deleteBtn);
+
 
             itemView.setOnClickListener(new View.OnClickListener() { //allows the app to recognize which item is being clicked.
                 @Override
@@ -92,7 +102,19 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
                     if(listener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
+                            listener.onEditClick(position);
+                        }
+                    }
+                }
+            });
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDeleteClick(position);
                         }
                     }
                 }

@@ -11,9 +11,9 @@ public class Entry implements Serializable {
 
     private String Title;
     private String Content;
-    private @ServerTimestamp Date date;
+    private @ServerTimestamp Date Date;
     private String UserID;
-    private String ownerName;
+    private String Owner;
 
 
     public Entry() { //no argument constructor because the compiler was angry at me
@@ -22,16 +22,16 @@ public class Entry implements Serializable {
     public Entry(String title, String content, Date date, String userID) {
         this.Title = title;
         this.Content = content;
-        this.date = date;
+        this.Date = date;
         this.UserID = userID;
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    public String getOwner() {
+        return Owner;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setOwner(String owner) {
+        Owner = owner;
     }
 
     public String getTitle() {
@@ -51,11 +51,11 @@ public class Entry implements Serializable {
     }
 
     public Date getDate() {
-        return date;
+        return Date;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.Date = date;
     }
 
     public String getUserID() {
@@ -71,7 +71,7 @@ public class Entry implements Serializable {
         return "Entry{" +
                 "title='" + Title + '\'' +
                 ", content='" + Content + '\'' +
-                ", date=" + date +
+                ", date=" + Date +
                 ", writer='" + UserID + '\'' +
                 '}';
     }
