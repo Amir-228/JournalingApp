@@ -302,7 +302,6 @@ public class appSettingsActivity extends AppCompatActivity {
         color1 = sp.getInt(BACKGROUND_ONETWO, 0);
         color2 = sp.getInt(BACKGROUND_TWOTWO, 0);
 
-        Log.e("iooo", "bg: " + backgroundOption);
 
         switch(backgroundOption)    {
 

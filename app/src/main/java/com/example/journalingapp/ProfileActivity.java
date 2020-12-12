@@ -3,9 +3,13 @@ package com.example.journalingapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -120,6 +124,8 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivityForResult(openGallery, 1000);
             }
         });
+
+        loadSharedPreferences();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -148,5 +154,42 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Image Failed to Upload", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void loadSharedPreferences() {
+
+        SharedPreferences sp = getSharedPreferences(appSettingsActivity.SHARED_PREFS, MODE_PRIVATE);
+
+        ConstraintLayout layoutm = findViewById(R.id.profileEditLayout);
+
+        switch(sp.getInt(appSettingsActivity.BACKGROUND_CHOICE, 0))    {
+
+            case 0:
+                layoutm.setBackground(getDrawable(R.drawable.bglogin));
+                break;
+
+            case 1:
+                layoutm.setBackgroundColor(sp.getInt(appSettingsActivity.BACKGROUND_ONEONE, 0));
+                break;
+
+            case 2:
+                GradientDrawable gd = new GradientDrawable();
+
+                gd.setOrientation(GradientDrawable.Orientation.BL_TR);
+
+                gd.setColors(new int[]  {sp.getInt(appSettingsActivity.BACKGROUND_ONETWO, 0), sp.getInt(appSettingsActivity.BACKGROUND_TWOTWO, 0)});
+
+                layoutm.setBackground(gd);
+                break;
+
+            case 3:
+                layoutm.setBackground(getDrawable(R.drawable.gradient_list));
+
+                AnimationDrawable animationDrawable = (AnimationDrawable) layoutm.getBackground();
+                animationDrawable.setEnterFadeDuration(2000);
+                animationDrawable.setExitFadeDuration(4000);
+                animationDrawable.start();
+                break;
+        }
     }
 }
