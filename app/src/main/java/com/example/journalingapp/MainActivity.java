@@ -107,20 +107,12 @@ public class MainActivity extends AppCompatActivity {
         //create temporary Entry item, grab content from database, put content in entry item, but entry item in ArrayList
         //use ArrayList with RecyclerViewAdapter to load RecyclerView with Entry items
 
-        //ArrayList<Entry> entries = getData();
-
         getData();
-
-
-        //rva = new recyclerviewadapter(entries, this);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.setAdapter(rva);
-
         loadSharedPreferences();
     }
 
 
-    public ArrayList<Entry> getData() {
+    public void getData() {
 
         final ArrayList<Entry> entryList = new ArrayList();
 
@@ -149,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        return entryList;
     }
 
     public void getTheResult(ArrayList<Entry> pass) {

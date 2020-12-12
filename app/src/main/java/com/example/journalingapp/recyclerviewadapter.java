@@ -65,11 +65,6 @@ public class recyclerviewadapter extends RecyclerView.Adapter<recyclerviewadapte
         return data.size();
     }
 
-    public void removeEntry(Entry entry){
-        data.remove(entry);
-        notifyDataSetChanged();
-    }
-
     public void updateEntry(Entry entry){
         data.get(selectedEntryIndex).setTitle(entry.getTitle());
         data.get(selectedEntryIndex).setContent(entry.getContent());
