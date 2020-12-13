@@ -95,7 +95,7 @@ public class addEntry extends AppCompatActivity {
         data.put("Owner", ownerName);
         data.put("Date", date);
 
-        db.collection("journals").document("jl")
+        db.collection("journals").document(journalTitle)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

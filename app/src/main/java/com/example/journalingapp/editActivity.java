@@ -35,7 +35,7 @@ public class editActivity extends AppCompatActivity {
     EditText title, input;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String userId;
+    String userId, oldTitle;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,7 +50,7 @@ public class editActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.save){
-            saveToDatabase();
+            saveToDatabase(oldTitle);
             return true;
         }
         else if(item.getItemId() == R.id.cancel){
@@ -74,52 +74,17 @@ public class editActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        getData();
-
-    }
-    public void getData() {
-
-        final ArrayList<Entry> entryList = new ArrayList();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference entryReference = db.collection("journals");
-        Query entryQuery = entryReference.whereEqualTo("UserID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        entryQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-
-                    Log.d("Success", "Task was successful");
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-
-                        Entry entry = doc.toObject(Entry.class);
-                        entryList.add(entry);
-                    }
-
-                    Log.d("EntryList", entryList.toString());
-
-                    String titleText = entryList.get(0).getTitle();
-                    title.setText(titleText);
-
-                    String contentText = entryList.get(0).getContent();
-                    input.setText(contentText);
-
-                    System.out.println("==================== hereeeeeeeeeeeeeeee!");
-
-                } else {
-                    Log.e("Failed", "Task has failed");
-                    Toast.makeText(getApplicationContext(), "Task failed", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        Intent rec = getIntent();
+        title.setText(rec.getStringExtra("title"));
+        input.setText(rec.getStringExtra("content"));
+        oldTitle = title.getText().toString();
     }
 
     public void goHome(){
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
-    public void saveToDatabase(){
+    public void saveToDatabase(String oldTitle){
 
         String journalTitle = title.getText().toString().trim();
         String journalContent = input.getText().toString().trim();
@@ -130,7 +95,7 @@ public class editActivity extends AppCompatActivity {
 
         //update the database.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("journals").document("jl")
+        db.collection("journals").document(oldTitle)
                 //.update("Title", title.getText().toString())
                 .update(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

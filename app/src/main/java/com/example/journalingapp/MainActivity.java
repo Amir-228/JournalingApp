@@ -158,17 +158,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 //open edit activity
-                startActivity(new Intent(getApplicationContext(), editActivity.class));
+
+                Entry editable = entries.get(position);
+                Intent edit = new Intent(getApplicationContext(), editActivity.class);
+                edit.putExtra("title", editable.getTitle());
+                edit.putExtra("content", editable.getContent());
+                startActivity(edit);
                 finish();
             }
 
             @Override
             public void onDeleteClick(int position) {
+
+                String docTitle = entries.get(position).getTitle();
+
                 entries.remove(position);
                 rva.notifyItemRemoved(position);
                 //remove item from cloud firestore
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("journals").document("jl")
+                db.collection("journals").document(docTitle)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
