@@ -164,6 +164,21 @@ public class MainActivity extends AppCompatActivity {
                 entries.remove(position);
                 rva.notifyItemRemoved(position);
                 //remove item from cloud firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("journals").document("QUzL19OyD4ioUA5WpJdu")
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "Document deleted successfully!", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to  deleted the document!", Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
         });
 
