@@ -157,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 //open edit activity
+                startActivity(new Intent(getApplicationContext(), editActivity.class));
+                finish();
             }
 
             @Override
@@ -165,7 +167,8 @@ public class MainActivity extends AppCompatActivity {
                 rva.notifyItemRemoved(position);
                 //remove item from cloud firestore
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("journals").document("QUzL19OyD4ioUA5WpJdu")
+                String path =  db.collection("journals").getPath();
+                db.collection("journals").document(path)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -175,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Failed to  deleted the document!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Failed to  delete the document!", Toast.LENGTH_LONG).show();
                     }
                 });
 

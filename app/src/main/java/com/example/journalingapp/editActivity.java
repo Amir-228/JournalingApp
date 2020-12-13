@@ -2,37 +2,40 @@ package com.example.journalingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class addEntry extends AppCompatActivity {
+public class editActivity extends AppCompatActivity {
 
     EditText title, input;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userId;
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,9 +74,47 @@ public class addEntry extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        loadSharedPreferences();
+        getData();
 
     }
+    public void getData() {
+
+        final ArrayList<Entry> entryList = new ArrayList();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final CollectionReference entryReference = db.collection("journals");
+        Query entryQuery = entryReference.whereEqualTo("UserID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        entryQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    Log.d("Success", "Task was successful");
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+
+                        Entry entry = doc.toObject(Entry.class);
+                        entryList.add(entry);
+                    }
+
+                    Log.d("EntryList", entryList.toString());
+
+                    String titleText = entryList.get(0).getTitle();
+                    title.setText(titleText);
+
+                    String contentText = entryList.get(0).getContent();
+                    input.setText(contentText);
+
+                    System.out.println("==================== hereeeeeeeeeeeeeeee!");
+
+                } else {
+                    Log.e("Failed", "Task has failed");
+                    Toast.makeText(getApplicationContext(), "Task failed", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     public void goHome(){
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
@@ -100,12 +141,12 @@ public class addEntry extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(addEntry.this, "Journal added to the Database.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(editActivity.this, "Journal added to the Database.",Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(addEntry.this, "Failed to upload to the Database.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(editActivity.this, "Failed to upload to the Database.",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -113,42 +154,4 @@ public class addEntry extends AppCompatActivity {
         finish();
 
     }
-
-    public void loadSharedPreferences() {
-
-        SharedPreferences sp = getSharedPreferences(appSettingsActivity.SHARED_PREFS, MODE_PRIVATE);
-
-        ConstraintLayout layoutm = findViewById(R.id.addEntryLayout);
-
-        switch(sp.getInt(appSettingsActivity.BACKGROUND_CHOICE, 0))    {
-
-            case 0:
-                layoutm.setBackground(getDrawable(R.drawable.bglogin));
-                break;
-
-            case 1:
-                layoutm.setBackgroundColor(sp.getInt(appSettingsActivity.BACKGROUND_ONEONE, 0));
-                break;
-
-            case 2:
-                GradientDrawable gd = new GradientDrawable();
-
-                gd.setOrientation(GradientDrawable.Orientation.BL_TR);
-
-                gd.setColors(new int[]  {sp.getInt(appSettingsActivity.BACKGROUND_ONETWO, 0), sp.getInt(appSettingsActivity.BACKGROUND_TWOTWO, 0)});
-
-                layoutm.setBackground(gd);
-                break;
-
-            case 3:
-                layoutm.setBackground(getDrawable(R.drawable.gradient_list));
-
-                AnimationDrawable animationDrawable = (AnimationDrawable) layoutm.getBackground();
-                animationDrawable.setEnterFadeDuration(2000);
-                animationDrawable.setExitFadeDuration(4000);
-                animationDrawable.start();
-                break;
-        }
-    }
-
 }
