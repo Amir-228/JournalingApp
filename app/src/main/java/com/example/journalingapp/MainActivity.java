@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<Entry> entryList = new ArrayList();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //DocumentReference df  = db.collection("journals").document("jl");
         final CollectionReference entryReference = db.collection("journals");
         Query entryQuery = entryReference.whereEqualTo("UserID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -167,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 rva.notifyItemRemoved(position);
                 //remove item from cloud firestore
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                String path =  db.collection("journals").getPath();
-                db.collection("journals").document(path)
+                db.collection("journals").document("jl")
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

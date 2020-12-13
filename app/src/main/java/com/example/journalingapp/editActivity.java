@@ -123,35 +123,28 @@ public class editActivity extends AppCompatActivity {
 
         String journalTitle = title.getText().toString().trim();
         String journalContent = input.getText().toString().trim();
-        String ownerName = "Owner name";
-        Date date = new Date();
-        userId = fAuth.getCurrentUser().getUid();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String,Object> data = new HashMap<>();
-        data.put("UserID",userId);
         data.put("Title",journalTitle);
         data.put("Content",journalContent);
-        data.put("Owner", ownerName);
-        data.put("Date", date);
 
-        db.collection("journals")
-                .add(data)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        //update the database.
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("journals").document("jl")
+                //.update("Title", title.getText().toString())
+                .update(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(editActivity.this, "Journal added to the Database.",Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(editActivity.this, "Journal updated!",Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(editActivity.this, "Failed to upload to the Database.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(editActivity.this, "Failed to update the journal.",Toast.LENGTH_SHORT).show();
             }
         });
 
-        startActivity(new Intent(getApplicationContext(), addEntry.class));
-        finish();
 
     }
 }

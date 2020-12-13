@@ -95,21 +95,23 @@ public class addEntry extends AppCompatActivity {
         data.put("Owner", ownerName);
         data.put("Date", date);
 
-        db.collection("journals")
-                .add(data)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("journals").document("jl")
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(addEntry.this, "Journal added to the Database.",Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Data added to the Database!", Toast.LENGTH_LONG).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(addEntry.this, "Failed to upload to the Database.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed to add the data to the Database!", Toast.LENGTH_LONG).show();
             }
         });
 
-        startActivity(new Intent(getApplicationContext(), addEntry.class));
+
+
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
 
     }
