@@ -8,26 +8,29 @@
     android:background="#8EBBCF"
     tools:context=".ProfileActivity">
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="110dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="41dp"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <ListView
         android:id="@+id/listView"
-        android:layout_width="311dp"
-        android:layout_height="438dp"
+        android:layout_width="306dp"
+        android:layout_height="386dp"
         android:layout_marginBottom="84dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
     </ListView>
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="125dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
