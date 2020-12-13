@@ -3,9 +3,11 @@ package com.example.journalingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -149,6 +151,49 @@ public class addEntry extends AppCompatActivity {
                 animationDrawable.setEnterFadeDuration(2000);
                 animationDrawable.setExitFadeDuration(4000);
                 animationDrawable.start();
+                break;
+        }
+
+        switch(sp.getInt(appSettingsActivity.TEXTFONT, 0))   {
+
+            case 0:
+                title.setTypeface(Typeface.SANS_SERIF);
+                input.setTypeface(Typeface.SANS_SERIF);
+                break;
+
+            case 1:
+                title.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.aguafina_script));
+                input.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.aguafina_script));
+                break;
+
+            case 2:
+                title.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                input.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+
+            case 3:
+                title.setTypeface(Typeface.SERIF);
+                input.setTypeface(Typeface.SERIF);
+                break;
+
+            case 4:
+                title.setTypeface(Typeface.MONOSPACE);
+                input.setTypeface(Typeface.MONOSPACE);
+                break;
+
+            case 5:
+                title.setTypeface(Typeface.create("serif-monospace", Typeface.NORMAL));
+                input.setTypeface(Typeface.create("serif-monospace", Typeface.NORMAL));
+                break;
+
+            case 6:
+                title.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+                input.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+                break;
+
+            case 7:
+                title.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
+                input.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
                 break;
         }
     }

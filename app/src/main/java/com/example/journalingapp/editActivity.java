@@ -2,14 +2,21 @@ package com.example.journalingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,6 +85,8 @@ public class editActivity extends AppCompatActivity {
         title.setText(rec.getStringExtra("title"));
         input.setText(rec.getStringExtra("content"));
         oldTitle = title.getText().toString();
+
+        loadSharedPreferences();
     }
 
     public void goHome(){
@@ -114,5 +123,85 @@ public class editActivity extends AppCompatActivity {
         finish();
 
 
+    }
+
+    public void loadSharedPreferences() {
+
+        SharedPreferences sp = getSharedPreferences(appSettingsActivity.SHARED_PREFS, MODE_PRIVATE);
+
+        ConstraintLayout layoutm = findViewById(R.id.addEntryLayout);
+
+        switch(sp.getInt(appSettingsActivity.BACKGROUND_CHOICE, 0))    {
+
+            case 0:
+                layoutm.setBackground(getDrawable(R.drawable.bglogin));
+                break;
+
+            case 1:
+                layoutm.setBackgroundColor(sp.getInt(appSettingsActivity.BACKGROUND_ONEONE, 0));
+                break;
+
+            case 2:
+                GradientDrawable gd = new GradientDrawable();
+
+                gd.setOrientation(GradientDrawable.Orientation.BL_TR);
+
+                gd.setColors(new int[]  {sp.getInt(appSettingsActivity.BACKGROUND_ONETWO, 0), sp.getInt(appSettingsActivity.BACKGROUND_TWOTWO, 0)});
+
+                layoutm.setBackground(gd);
+                break;
+
+            case 3:
+                layoutm.setBackground(getDrawable(R.drawable.gradient_list));
+
+                AnimationDrawable animationDrawable = (AnimationDrawable) layoutm.getBackground();
+                animationDrawable.setEnterFadeDuration(2000);
+                animationDrawable.setExitFadeDuration(4000);
+                animationDrawable.start();
+                break;
+        }
+
+        switch(sp.getInt(appSettingsActivity.TEXTFONT, 0))   {
+
+            case 0:
+                title.setTypeface(Typeface.SANS_SERIF);
+                input.setTypeface(Typeface.SANS_SERIF);
+                break;
+
+            case 1:
+                title.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.aguafina_script));
+                input.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.aguafina_script));
+                break;
+
+            case 2:
+                title.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                input.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+
+            case 3:
+                title.setTypeface(Typeface.SERIF);
+                input.setTypeface(Typeface.SERIF);
+                break;
+
+            case 4:
+                title.setTypeface(Typeface.MONOSPACE);
+                input.setTypeface(Typeface.MONOSPACE);
+                break;
+
+            case 5:
+                title.setTypeface(Typeface.create("serif-monospace", Typeface.NORMAL));
+                input.setTypeface(Typeface.create("serif-monospace", Typeface.NORMAL));
+                break;
+
+            case 6:
+                title.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+                input.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+                break;
+
+            case 7:
+                title.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
+                input.setTypeface(Typeface.create("cursive", Typeface.NORMAL));
+                break;
+        }
     }
 }
